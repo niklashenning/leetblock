@@ -5,11 +5,11 @@
     "content_scripts": [
         {
             "matches": ["*://leetcode.com/problems/*"],
-            "js": ["js/content.js"]
+            "js": ["js/discussion_item.js", "js/content.js"]
         }
     ],
     "browser_action": {
-        "default_popup": "popup.html",
+        "default_popup": "html/popup.html",
         "default_title": "Leetcode Block Users"
     }
 }
