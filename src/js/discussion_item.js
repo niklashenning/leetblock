@@ -1,6 +1,6 @@
 
 function getDiscussionItems() {
-    return document.getElementsByClassName("px-1 transition-[background] duration-500");
+    return document.getElementsByClassName(DISCUSSION_ITEM_CLASS);
 }
 
 
