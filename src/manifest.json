@@ -5,7 +5,8 @@
     "content_scripts": [
         {
             "matches": ["*://leetcode.com/problems/*"],
-            "js": ["js/constants.js", "js/discussion_item.js", "js/content.js"]
+            "js": ["js/constants.js", "js/discussion_item.js", "js/content.js"],
+            "css" : ["css/content.css"]
         }
     ],
     "browser_action": {

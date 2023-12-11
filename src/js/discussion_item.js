@@ -47,3 +47,17 @@ function discussionItemsUpdated(discussionItems, discussionItemsRepliesCount, ne
     }
     return false;
 }
+
+
+function blockItem(item, username) {
+    item.setAttribute("blocked-user", username);
+}
+
+
+function unhideUserItems(username) {
+    let elements = document.querySelectorAll("[blocked-user='" + username + "']");
+
+    for (let i = 0; i < elements.length; i++) {
+        elements[i].removeAttribute("blocked-user");
+    }
+}

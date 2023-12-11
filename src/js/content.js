@@ -21,6 +21,7 @@ function mainLoop() {
 
         if (blockList.includes(username)) {
             console.log("blocking discussion post from: " + username);
+            blockItem(discussionItems[i], username);
         } else {
             let discussionItemReplies = getDiscussionItemReplies(discussionItems[i]);
 
@@ -30,6 +31,7 @@ function mainLoop() {
 
                 if (blockList.includes(username)) {
                     console.log("blocking reply from: " + username);
+                    blockItem(discussionItemReplies[j], username);
                 }
             }
         }
