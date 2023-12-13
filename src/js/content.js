@@ -42,7 +42,9 @@ function mainLoop() {
 
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
     if (request.action === "block-user") {
-        onBlockUser(request.username);
+        sendResponse(onBlockUser(request.username));
+    } else if (request.action === "unblock-user") {
+        sendResponse(onUnblockUser(request.username));
     } else if (request.action == "unblock-all") {
         onUnblockAll();
     }
@@ -51,7 +53,7 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
 
 function onBlockUser(username) {
     if (blockList.includes(username)) {
-        return;
+        return false;
     }
 
     blockList.push(username);
@@ -74,18 +76,19 @@ function onBlockUser(username) {
             }
         }
     }
+    return true;
 }
 
 
 function onUnblockUser(username) {
     if (!blockList.includes(username)) {
-        return;
+        return false;
     }
 
     blockList = blockList.filter(item => item !== username);
     chrome.storage.local.set({blocklist: blockList}, function () {});
-
     unhideUserItems(username);
+    return true;
 }
 
 
