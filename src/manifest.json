@@ -2,11 +2,20 @@
     "name": "Leetcode Block Users",
     "version": "1.0",
     "manifest_version": 2,
+    "permissions": [
+        "storage"
+    ],
     "content_scripts": [
         {
             "matches": ["*://leetcode.com/problems/*"],
-            "js": ["js/constants.js", "js/discussion_item.js", "js/content.js"],
-            "css" : ["css/content.css"]
+            "js": [
+                "js/constants.js",
+                "js/discussion_item.js",
+                "js/content.js"
+            ],
+            "css" : [
+                "css/content.css"
+            ]
         }
     ],
     "browser_action": {

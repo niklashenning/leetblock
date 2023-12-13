@@ -1,7 +1,12 @@
 
+let blockList = [];
 let discussionItems = [];
 let discussionItemsRepliesCount = [];
-let blockList = [];
+
+
+chrome.storage.local.get(["blocklist"], function (result) {
+    blockList = result.blocklist;
+});
 
 
 function mainLoop() {
@@ -17,25 +22,80 @@ function mainLoop() {
     for (let i = 0; i < discussionItems.length; i++) {
         discussionItemsRepliesCount.push(getDiscussionItemReplies(discussionItems[i]).length);
         let username = getDiscussionItemUsername(discussionItems[i]);
-        console.log(username);
 
         if (blockList.includes(username)) {
-            console.log("blocking discussion post from: " + username);
             blockItem(discussionItems[i], username);
         } else {
             let discussionItemReplies = getDiscussionItemReplies(discussionItems[i]);
 
             for (let j = 0; j < discussionItemReplies.length; j++) { 
                 username = getReplyUsername(discussionItemReplies[j]);
-                console.log(username);
 
                 if (blockList.includes(username)) {
-                    console.log("blocking reply from: " + username);
                     blockItem(discussionItemReplies[j], username);
                 }
             }
         }
     }
+}
+
+
+chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
+    if (request.action === "block-user") {
+        onBlockUser(request.username);
+    } else if (request.action == "unblock-all") {
+        onUnblockAll();
+    }
+});
+
+
+function onBlockUser(username) {
+    if (blockList.includes(username)) {
+        return;
+    }
+
+    blockList.push(username);
+    chrome.storage.local.set({blocklist: blockList}, function () {});
+
+    for (let i = 0; i < discussionItems.length; i++) {
+        let discussionItemUsername = getDiscussionItemUsername(discussionItems[i]);
+
+        if (discussionItemUsername === username) {
+            blockItem(discussionItems[i], username);
+        } else {
+            let discussionItemReplies = getDiscussionItemReplies(discussionItems[i]);
+
+            for (let j = 0; j < discussionItemReplies.length; j++) { 
+                replyUsername = getReplyUsername(discussionItemReplies[j]);
+
+                if (replyUsername === username) {
+                    blockItem(discussionItemReplies[j], username);
+                }
+            }
+        }
+    }
+}
+
+
+function onUnblockUser(username) {
+    if (!blockList.includes(username)) {
+        return;
+    }
+
+    blockList = blockList.filter(item => item !== username);
+    chrome.storage.local.set({blocklist: blockList}, function () {});
+
+    unhideUserItems(username);
+}
+
+
+function onUnblockAll() {
+    for (let i = 0; i < blockList.length; i++) {
+        unhideUserItems(blockList[i]);
+    }
+
+    blockList = [];
+    chrome.storage.local.set({blocklist: blockList}, function () {});
 }
 
 
