@@ -21,5 +21,11 @@
     "browser_action": {
         "default_popup": "html/popup.html",
         "default_title": "Leetcode Block Users"
-    }
+    },
+    "icons": {
+        "16": "images/icon.png",
+        "32": "images/icon.png",
+        "48": "images/icon.png",
+        "128": "images/icon.png"
+      }
 }
