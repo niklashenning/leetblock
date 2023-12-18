@@ -2,6 +2,11 @@
 document.addEventListener("DOMContentLoaded", function () {
     document.getElementById("block-user-form-button").onclick = blockUserClicked;
     document.getElementById("unblock-all-button").onclick = unblockAllClicked;
+    document.getElementById("block-user-form-input").addEventListener("keyup", function(event) {
+        if (event.key === "Enter") {
+            blockUserClicked();
+        }
+    });
     
     chrome.storage.local.get(["blocklist"], function (result) {
         let blockList = result.blocklist;
