@@ -9,6 +9,10 @@ document.addEventListener("DOMContentLoaded", function () {
         for (let i = 0; i < blockList.length; i++) {
             addUserToList(blockList[i]);
         }
+
+        if (blockList.length === 0) {
+            document.getElementById("block-list").appendChild(createBlockListPlaceHolder());
+        }
     });
 });
 
@@ -24,6 +28,12 @@ function addUserToList(username) {
     element.children[1].addEventListener("click", function() {
         unblockUserClicked(username);
     });
+
+    let placeholderElement = document.getElementById("block-list-placeholder");
+
+    if (placeholderElement) {
+        placeholderElement.remove();
+    }
 }
 
 
@@ -33,6 +43,10 @@ function removeUserFromList(username) {
 
     if (userElement) {
         userElement.remove();
+    }
+
+    if (blockListElement.children.length === 0) {
+        blockListElement.appendChild(createBlockListPlaceHolder());
     }
 }
 
@@ -81,5 +95,14 @@ function unblockAllClicked() {
         chrome.tabs.sendMessage(tabs[0].id, message);
     });
 
-    document.getElementById("block-list").replaceChildren();
+    let blockListElement = document.getElementById("block-list");
+    blockListElement.replaceChildren();
+    blockListElement.appendChild(createBlockListPlaceHolder());
+}
+
+
+function createBlockListPlaceHolder() {
+    let message = "No blocked users found.";
+    let elementString = "<a id='block-list-placeholder'>" + message + "</a>";
+    return new DOMParser().parseFromString(elementString, "text/html").body.childNodes[0];
 }

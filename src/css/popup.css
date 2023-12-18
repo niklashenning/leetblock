@@ -23,6 +23,14 @@ button {
     margin-bottom: 10px;
 }
 
+#block-list-placeholder {
+    display: block;
+    color: #BDBFC2;
+    background: #3c3c3c8e;
+    text-align: center;
+    padding: 25px 20px;
+}
+
 .blocked-user-item {
     display: flex;
     flex-direction: row;
