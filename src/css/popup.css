@@ -35,6 +35,7 @@ button {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    align-items: center;
     background: #3c3c3c8e;
     padding: 10px 10px 10px 15px;
     transition: 0.25s;
@@ -48,6 +49,9 @@ button {
     color: #BDBFC2;
     font-size: 14px;
     font-weight: 600;
+    max-width: 200px;
+    text-overflow: ellipsis;
+    overflow: hidden;
 }
 
 .blocked-user-unblock-button {
