@@ -23,6 +23,8 @@ function mainLoop() {
         discussionItemsRepliesCount.push(getDiscussionItemReplies(discussionItems[i]).length);
         let username = getDiscussionItemUsername(discussionItems[i]);
 
+        addBlockButtonToDiscussionItem(discussionItems[i], onBlockUser, username);
+
         if (blockList.includes(username)) {
             blockItem(discussionItems[i], username);
         } else {
@@ -30,6 +32,8 @@ function mainLoop() {
 
             for (let j = 0; j < discussionItemReplies.length; j++) { 
                 username = getReplyUsername(discussionItemReplies[j]);
+                
+                addBlockButtonToReply(discussionItemReplies[j], onBlockUser, username);
 
                 if (blockList.includes(username)) {
                     blockItem(discussionItemReplies[j], username);
@@ -45,7 +49,7 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
         sendResponse(onBlockUser(request.username));
     } else if (request.action === "unblock-user") {
         sendResponse(onUnblockUser(request.username));
-    } else if (request.action == "unblock-all") {
+    } else if (request.action === "unblock-all") {
         onUnblockAll();
     }
 });

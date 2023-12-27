@@ -61,3 +61,39 @@ function unhideUserItems(username) {
         elements[i].removeAttribute("blocked-user");
     }
 }
+
+
+function addBlockButtonToDiscussionItem(discussionItem, onclick, username) {
+    let actionBar = discussionItem.children[0].children[1].lastChild.children[0];
+
+    if (actionBar.getElementsByClassName("block-button")[0]) {
+        return;
+    }
+
+    let blockButton = document.createElement("button");
+    blockButton.className = "block-button";
+    blockButton.innerText = "Block";
+    blockButton.addEventListener("click", function() {
+        onclick(username);
+    });
+
+    actionBar.appendChild(blockButton);
+}
+
+
+function addBlockButtonToReply(replyItem, onclick, username) {
+    let actionBar = replyItem.children[0].children[1].children[1].children[0];
+
+    if (actionBar.getElementsByClassName("block-button")[0]) {
+        return;
+    }
+
+    let blockButton = document.createElement("button");
+    blockButton.className = "block-button";
+    blockButton.innerText = "Block";
+    blockButton.addEventListener("click", function() {
+        onclick(username);
+    });
+
+    actionBar.appendChild(blockButton);
+}

@@ -1,3 +1,9 @@
 div[blocked-user] {
     display: none;
 }
+
+.block-button {
+    color: #f8615c;
+    background: transparent;
+    font-size: 12px;
+}
