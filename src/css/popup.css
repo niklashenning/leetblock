@@ -1,9 +1,9 @@
 body {
+    background: #262626;
     display: flex;
     flex-direction: column;
     justify-content: center;
     width: 300px;
-    background: #262626;
     margin: 0;
 }
 
@@ -25,8 +25,8 @@ button {
 }
 
 #title {
-    width: 100%;
     color: #FFF;
+    width: 100%;
     font-size: 24px;
     text-align: center;
 }
@@ -38,32 +38,32 @@ button {
 }
 
 #block-list-placeholder {
-    display: block;
     color: #BDBFC2;
-    background: #3c3c3c8e;
+    background: rgba(60, 60, 60, 0.56);
+    display: block;
     text-align: center;
     padding: 25px 20px;
 }
 
 .blocked-user-item {
+    background: rgba(60, 60, 60, 0.56);
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    background: #3c3c3c8e;
     padding: 10px 10px 10px 15px;
     transition: 0.25s;
 }
 
 .blocked-user-item:hover {
-    background: #3c3c3ccb;
+    background: rgba(60, 60, 60, 0.8);
 }
 
 .blocked-user-username {
     color: #BDBFC2;
+    max-width: 200px;
     font-size: 14px;
     font-weight: 600;
-    max-width: 200px;
     text-overflow: ellipsis;
     overflow: hidden;
 }
@@ -86,18 +86,18 @@ button {
 
 #block-user-form-input {
     color: #FFF;
-    background: #3c3c3c8e;
-    margin-right: 1px;
+    background: rgba(60, 60, 60, 0.56);
     border: none;
     outline: none;
+    margin-right: 1px;
     padding: 0px 10px;
 }
 
 #block-user-form-button {
-    width: 120px;
-    height: 38px;
     color: #F63737;
     background: rgba(246, 55, 55, 0.15);
+    width: 120px;
+    height: 38px;
     font-weight: 600;
     transition: 0.25s;
 }
@@ -107,10 +107,10 @@ button {
 }
 
 #unblock-all-button {
-    width: 100%;
-    height: 40px;
     color: #2AAE5D;
     background: rgb(44, 187, 93, 0.15);
+    width: 100%;
+    height: 40px;
     font-weight: 600;
     transition: 0.25s;
 }

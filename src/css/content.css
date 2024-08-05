@@ -7,3 +7,7 @@ div[blocked-user] {
     background: transparent;
     font-size: 12px;
 }
+
+.block-button:hover {
+    color: #cf5d5a;
+}
