@@ -92,6 +92,10 @@ function unblockUserClicked(username) {
 
 
 function unblockAllClicked() {
+    if (!window.confirm("Are you sure you want to unblock every user?")) {
+        return;
+    }
+
     let message = {
         action: "unblock-all"
     };
