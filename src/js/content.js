@@ -1,7 +1,7 @@
 
 let blockList = [];
-let discussionItems = [];
-let discussionItemsRepliesCount = [];
+let commentElements = [];
+let commentElementsReplyCount = [];
 
 
 chrome.storage.local.get(["blocklist"], function (result) {
@@ -10,33 +10,33 @@ chrome.storage.local.get(["blocklist"], function (result) {
 
 
 function mainLoop() {
-    let currentDiscussionItems = getDiscussionItems();
+    let currentCommentElements = getComments();
 
-    if (!discussionItemsUpdated(discussionItems, discussionItemsRepliesCount, currentDiscussionItems)) {
+    if (!elementsUpdated(commentElements, commentElementsReplyCount, currentCommentElements)) {
         return;
     }
 
-    discussionItems = [...currentDiscussionItems];
-    discussionItemsRepliesCount = [];
+    commentElements = [...currentCommentElements];
+    commentElementsReplyCount = [];
   
-    for (let i = 0; i < discussionItems.length; i++) {
-        discussionItemsRepliesCount.push(getDiscussionItemReplies(discussionItems[i]).length);
-        let username = getDiscussionItemUsername(discussionItems[i]);
+    for (let i = 0; i < commentElements.length; i++) {
+        commentElementsReplyCount.push(getCommentReplies(commentElements[i]).length);
+        let username = getCommentUsername(commentElements[i]);
 
-        addBlockButtonToDiscussionItem(discussionItems[i], onBlockUser, username);
+        addBlockButtonToComment(commentElements[i], onBlockUser, username);
 
         if (blockList.includes(username)) {
-            blockItem(discussionItems[i], username);
+            blockElement(commentElements[i], username);
         } else {
-            let discussionItemReplies = getDiscussionItemReplies(discussionItems[i]);
+            let commentElementReplies = getCommentReplies(commentElements[i]);
 
-            for (let j = 0; j < discussionItemReplies.length; j++) { 
-                username = getReplyUsername(discussionItemReplies[j]);
+            for (let j = 0; j < commentElementReplies.length; j++) { 
+                username = getReplyUsername(commentElementReplies[j]);
                 
-                addBlockButtonToReply(discussionItemReplies[j], onBlockUser, username);
+                addBlockButtonToReply(commentElementReplies[j], onBlockUser, username);
 
                 if (blockList.includes(username)) {
-                    blockItem(discussionItemReplies[j], username);
+                    blockElement(commentElementReplies[j], username);
                 }
             }
         }
@@ -63,19 +63,19 @@ function onBlockUser(username) {
     blockList.push(username);
     chrome.storage.local.set({blocklist: blockList}, function () {});
 
-    for (let i = 0; i < discussionItems.length; i++) {
-        let discussionItemUsername = getDiscussionItemUsername(discussionItems[i]);
+    for (let i = 0; i < commentElements.length; i++) {
+        let commentUsername = getCommentUsername(commentElements[i]);
 
-        if (discussionItemUsername === username) {
-            blockItem(discussionItems[i], username);
+        if (commentUsername === username) {
+            blockElement(commentElements[i], username);
         } else {
-            let discussionItemReplies = getDiscussionItemReplies(discussionItems[i]);
+            let commentElementReplies = getCommentReplies(commentElements[i]);
 
-            for (let j = 0; j < discussionItemReplies.length; j++) { 
-                replyUsername = getReplyUsername(discussionItemReplies[j]);
+            for (let j = 0; j < commentElementReplies.length; j++) { 
+                let replyUsername = getReplyUsername(commentElementReplies[j]);
 
                 if (replyUsername === username) {
-                    blockItem(discussionItemReplies[j], username);
+                    blockElement(commentElementReplies[j], username);
                 }
             }
         }
@@ -91,14 +91,14 @@ function onUnblockUser(username) {
 
     blockList = blockList.filter(item => item !== username);
     chrome.storage.local.set({blocklist: blockList}, function () {});
-    unhideUserItems(username);
+    unhideUserElements(username);
     return true;
 }
 
 
 function onUnblockAll() {
     for (let i = 0; i < blockList.length; i++) {
-        unhideUserItems(blockList[i]);
+        unhideUserElements(blockList[i]);
     }
 
     blockList = [];

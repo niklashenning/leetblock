@@ -9,8 +9,7 @@
         {
             "matches": ["*://leetcode.com/problems/*"],
             "js": [
-                "js/constants.js",
-                "js/discussion_item.js",
+                "js/dom_handler.js",
                 "js/content.js"
             ],
             "css" : [
@@ -27,5 +26,5 @@
         "32": "images/icon_32.png",
         "48": "images/icon_48.png",
         "128": "images/icon_128.png"
-      }
+    }
 }

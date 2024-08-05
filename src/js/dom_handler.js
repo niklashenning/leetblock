@@ -1,26 +1,21 @@
 
-function getDiscussionItems() {
-    return document.getElementsByClassName(DISCUSSION_ITEM_CLASS);
+function getComments() {
+    return document.getElementsByClassName("px-1 transition-[background] duration-500");
 }
 
 
-function getDiscussionItemUsername(discussionItem) {
-    return discussionItem.children[0].children[0].children[1].children[0].children[0].children[0].children[0].innerText;
+function getCommentUsername(commentElement) {
+    return commentElement.children[0].children[0].children[1].children[0].children[0].children[0].children[0].innerText;
 }
 
 
-function discussionItemHasReplies(discussionItem) {
-    return discussionItem.children.length > 1;
-}
-
-
-function getDiscussionItemReplies(discussionItem) {
-    if (discussionItem.children.length <= 1) {
+function getCommentReplies(commentElement) {
+    if (commentElement.children.length <= 1) {
         return [];
     }
 
     let result = [];
-    let repliesParent = discussionItem.children[1];
+    let repliesParent = commentElement.children[1];
 
     for (let i = 0; i < repliesParent.children.length - 1; i++) {
         result.push(repliesParent.children[i]);
@@ -29,19 +24,19 @@ function getDiscussionItemReplies(discussionItem) {
 }
 
 
-function getReplyUsername(replyItem) {
-    return replyItem.children[0].children[1].children[0].children[0].children[0].children[0].innerText;
+function getReplyUsername(replyElement) {
+    return replyElement.children[0].children[1].children[0].children[0].children[0].children[0].innerText;
 }
 
 
-function discussionItemsUpdated(discussionItems, discussionItemsRepliesCount, newDiscussionItems) {
-    if (discussionItems.length != newDiscussionItems.length) {
+function elementsUpdated(commentElements, commentElementsReplyCount, newCommentElements) {
+    if (commentElements.length != newCommentElements.length) {
         return true;
     }
     
-    for (let i = 0; i < discussionItems.length; i++) {
-        if (!discussionItems[i].isEqualNode(newDiscussionItems[i]) ||
-            discussionItemsRepliesCount[i] != getDiscussionItemReplies(newDiscussionItems[i]).length) {
+    for (let i = 0; i < commentElements.length; i++) {
+        if (!commentElements[i].isEqualNode(newCommentElements[i]) ||
+            commentElementsReplyCount[i] != getCommentReplies(newCommentElements[i]).length) {
             return true;
         }
     }
@@ -49,12 +44,12 @@ function discussionItemsUpdated(discussionItems, discussionItemsRepliesCount, ne
 }
 
 
-function blockItem(item, username) {
-    item.setAttribute("blocked-user", username);
+function blockElement(element, username) {
+    element.setAttribute("blocked-user", username);
 }
 
 
-function unhideUserItems(username) {
+function unhideUserElements(username) {
     let elements = document.querySelectorAll("[blocked-user='" + username + "']");
 
     for (let i = 0; i < elements.length; i++) {
@@ -63,8 +58,8 @@ function unhideUserItems(username) {
 }
 
 
-function addBlockButtonToDiscussionItem(discussionItem, onclick, username) {
-    let actionBar = discussionItem.children[0].children[1].lastChild.children[0];
+function addBlockButtonToComment(commentElement, onclick, username) {
+    let actionBar = commentElement.children[0].children[1].lastChild.children[0];
 
     if (actionBar.getElementsByClassName("block-button")[0]) {
         return;
