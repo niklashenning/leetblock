@@ -2,16 +2,16 @@
     <img src="src/images/icon.png" width="80"/>
 </p>
 
-<div style="text-align: center;" markdown="1">
-
-# Leetcode Block Users
-
-</div>
+<h1 align="center">Leetcode Block Users</h1>
 
 ## Installation
+...
 
 ## Usage
+...
 
 ## Demo
+...
 
 ## License
+...
