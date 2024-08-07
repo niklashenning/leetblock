@@ -1,7 +1,8 @@
 {
     "name": "Leetcode Block Users",
     "version": "1.0.0",
-    "manifest_version": 2,
+    "description": "Browser extension that allows blocking users on Leetcode",
+    "manifest_version": 3,
     "permissions": [
         "storage"
     ],
@@ -18,12 +19,9 @@
         }
     ],
     "background": {
-        "scripts": [
-            "js/background.js"
-        ],
-        "persistent": false
+        "service_worker": "js/service_worker.js"
     },
-    "browser_action": {
+    "action": {
         "default_popup": "html/popup.html",
         "default_title": "Leetcode Block Users"
     },
