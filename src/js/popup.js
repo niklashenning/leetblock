@@ -1,4 +1,7 @@
 
+let blockList = [];
+
+
 document.addEventListener("DOMContentLoaded", function () {
     document.getElementById("block-user-form-button").onclick = blockUserClicked;
     document.getElementById("unblock-all-button").onclick = unblockAllClicked;
@@ -9,7 +12,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
     
     chrome.storage.local.get(["blocklist"], function (result) {
-        let blockList = result.blocklist;
+        blockList = result.blocklist;
 
         for (let i = 0; i < blockList.length; i++) {
             addUserToList(blockList[i]);
@@ -60,18 +63,30 @@ function blockUserClicked() {
     let username = document.getElementById("block-user-form-input").value;
     document.getElementById("block-user-form-input").value = "";
 
+    if (blockList.includes(username)) {
+        return;
+    }
+
+    blockList.push(username);
+
     let message = {
         action: "block-user",
         username: username
     };
 
-    chrome.tabs.query({ currentWindow: true, active: true }, function (tabs) {
-        chrome.tabs.sendMessage(tabs[0].id, message, function(response) {
-            if (response) {
-                addUserToList(username);
-            }
+    chrome.tabs.query({}, function(tabs) {
+        tabs.forEach(function(tab) {
+            chrome.tabs.sendMessage(tab.id, message, function(response) {
+                if (!chrome.runtime.lastError) {
+                    // Needed for extension not to show errors when sending
+                    // to tabs that don't have the content script injected
+                }
+            });
         });
     });
+
+    addUserToList(username);
+    chrome.storage.local.set({blocklist: blockList}, function () {});
 }
 
 
@@ -81,13 +96,25 @@ function unblockUserClicked(username) {
         username: username
     };
 
-    chrome.tabs.query({ currentWindow: true, active: true }, function (tabs) {
-        chrome.tabs.sendMessage(tabs[0].id, message, function(response) {
-            if (response) {
-                removeUserFromList(username);
-            }
+    if (!blockList.includes(username)) {
+        return;
+    }
+
+    blockList = blockList.filter(item => item !== username);
+
+    chrome.tabs.query({}, function(tabs) {
+        tabs.forEach(function(tab) {
+            chrome.tabs.sendMessage(tab.id, message, function(response) {
+                if (!chrome.runtime.lastError) {
+                    // Needed for extension not to show errors when sending
+                    // to tabs that don't have the content script injected
+                }
+            });
         });
     });
+
+    removeUserFromList(username);
+    chrome.storage.local.set({blocklist: blockList}, function () {});
 }
 
 
@@ -100,13 +127,23 @@ function unblockAllClicked() {
         action: "unblock-all"
     };
 
-    chrome.tabs.query({ currentWindow: true, active: true }, function (tabs) {
-        chrome.tabs.sendMessage(tabs[0].id, message);
+    blockList = [];
+
+    chrome.tabs.query({}, function(tabs) {
+        tabs.forEach(function(tab) {
+            chrome.tabs.sendMessage(tab.id, message, function(response) {
+                if (!chrome.runtime.lastError) {
+                    // Needed for extension not to show errors when sending
+                    // to tabs that don't have the content script injected
+                }
+            });
+        });
     });
 
     let blockListElement = document.getElementById("block-list");
     blockListElement.replaceChildren();
     blockListElement.appendChild(createBlockListPlaceHolder());
+    chrome.storage.local.set({blocklist: blockList}, function () {});
 }
 
 

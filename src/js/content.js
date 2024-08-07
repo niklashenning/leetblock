@@ -23,7 +23,7 @@ function mainLoop() {
         commentElementsReplyCount.push(getCommentReplies(commentElements[i]).length);
         let username = getCommentUsername(commentElements[i]);
 
-        addBlockButtonToComment(commentElements[i], onBlockUser, username);
+        addBlockButtonToComment(commentElements[i], onBlockUserClicked, username);
 
         if (blockList.includes(username)) {
             blockElement(commentElements[i], username);
@@ -33,7 +33,7 @@ function mainLoop() {
             for (let j = 0; j < commentElementReplies.length; j++) { 
                 username = getReplyUsername(commentElementReplies[j]);
                 
-                addBlockButtonToReply(commentElementReplies[j], onBlockUser, username);
+                addBlockButtonToReply(commentElementReplies[j], onBlockUserClicked, username);
 
                 if (blockList.includes(username)) {
                     blockElement(commentElementReplies[j], username);
@@ -46,22 +46,25 @@ function mainLoop() {
 
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
     if (request.action === "block-user") {
-        sendResponse(onBlockUser(request.username));
+        onBlockUserMessage(request.username);
     } else if (request.action === "unblock-user") {
-        sendResponse(onUnblockUser(request.username));
+        onUnblockUserMessage(request.username);
     } else if (request.action === "unblock-all") {
-        onUnblockAll();
+        onUnblockAllMessage();
     }
 });
 
 
-function onBlockUser(username) {
+function onBlockUserMessage(username, updateStorage = false) {
     if (blockList.includes(username)) {
-        return false;
+        return;
     }
 
     blockList.push(username);
-    chrome.storage.local.set({blocklist: blockList}, function () {});
+
+    if (updateStorage) {
+        chrome.storage.local.set({blocklist: blockList}, function () {});
+    }
 
     for (let i = 0; i < commentElements.length; i++) {
         let commentUsername = getCommentUsername(commentElements[i]);
@@ -80,29 +83,37 @@ function onBlockUser(username) {
             }
         }
     }
-    return true;
 }
 
 
-function onUnblockUser(username) {
+function onBlockUserClicked(username) {
+    onBlockUserMessage(username, true);
+
+    let message = {
+        action: "block-button-clicked",
+        username: username
+    };
+
+    chrome.runtime.sendMessage(message);
+}
+
+
+function onUnblockUserMessage(username) {
     if (!blockList.includes(username)) {
-        return false;
+        return;
     }
 
     blockList = blockList.filter(item => item !== username);
-    chrome.storage.local.set({blocklist: blockList}, function () {});
     unhideUserElements(username);
-    return true;
 }
 
 
-function onUnblockAll() {
+function onUnblockAllMessage() {
     for (let i = 0; i < blockList.length; i++) {
         unhideUserElements(blockList[i]);
     }
 
     blockList = [];
-    chrome.storage.local.set({blocklist: blockList}, function () {});
 }
 
 
