@@ -1,5 +1,8 @@
 
+// Message listener that listenes to messages from the content script
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+    // If block-button-clicked message is received, send
+    // block-user message to all tabs that have the content script injected
     if (request.action === "block-button-clicked") {
         let message = {
             action: "block-user",
