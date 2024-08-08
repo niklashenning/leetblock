@@ -1,7 +1,6 @@
 
 let blockList = [];
 let commentElements = [];
-let commentElementsReplyCount = [];
 
 
 // Load block list from local storage
@@ -14,39 +13,20 @@ chrome.storage.local.get(["blocklist"], function (result) {
 function mainLoop() {
     // Get current comment elements and check if anything has changed
     let currentCommentElements = getComments();
-
-    if (!elementsUpdated(commentElements, commentElementsReplyCount, currentCommentElements)) {
+    
+    if (!elementsUpdated(commentElements, currentCommentElements)) {
         return;
     }
 
     commentElements = [...currentCommentElements];
-    commentElementsReplyCount = [];
-    
-    // Loop through every comment element
-    for (let i = 0; i < commentElements.length; i++) {
-        commentElementsReplyCount.push(getCommentReplies(commentElements[i]).length);
 
-        // Get username of the comment's author and add block button
+    // Loop through every comment element, show block button and block element if needed
+    for (let i = 0; i < commentElements.length; i++) {
         let username = getCommentUsername(commentElements[i]);
         addBlockButtonToComment(commentElements[i], onBlockUserClicked, username);
-
-        // If author of the comment is blocked, hide it
+        
         if (blockList.includes(username)) {
             blockElement(commentElements[i], username);
-        } else {
-            let commentElementReplies = getCommentReplies(commentElements[i]);
-            
-            // Loop through every reply of the comment
-            for (let j = 0; j < commentElementReplies.length; j++) { 
-                // Get username of the reply's author and add block button
-                username = getReplyUsername(commentElementReplies[j]);
-                addBlockButtonToReply(commentElementReplies[j], onBlockUserClicked, username);
-                
-                // If author of the reply is blocked, hide it
-                if (blockList.includes(username)) {
-                    blockElement(commentElementReplies[j], username);
-                }
-            }
         }
     }
 }
@@ -84,16 +64,6 @@ function onBlockUserMessage(username, updateStorage = false) {
 
         if (commentUsername === username) {
             blockElement(commentElements[i], username);
-        } else {
-            let commentElementReplies = getCommentReplies(commentElements[i]);
-
-            for (let j = 0; j < commentElementReplies.length; j++) { 
-                let replyUsername = getReplyUsername(commentElementReplies[j]);
-
-                if (replyUsername === username) {
-                    blockElement(commentElementReplies[j], username);
-                }
-            }
         }
     }
 }
@@ -121,8 +91,6 @@ function onUnblockUserMessage(username) {
     }
 
     blockList = blockList.filter(item => item !== username);
-
-    // Call helper method that unblocks every blocked element of user
     unhideUserElements(username);
 }
 

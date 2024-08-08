@@ -10,8 +10,18 @@
         {
             "matches": ["*://leetcode.com/problems/*"],
             "js": [
-                "js/dom_handler.js",
-                "js/content.js"
+                "js/page_problems/dom_handler.js",
+                "js/page_problems/content.js"
+            ],
+            "css" : [
+                "css/content.css"
+            ]
+        },
+        {
+            "matches": ["*://leetcode.com/discuss/*"],
+            "js": [
+                "js/page_discuss/dom_handler.js",
+                "js/page_discuss/content.js"
             ],
             "css" : [
                 "css/content.css"

@@ -8,6 +8,10 @@ div[blocked-user] {
     font-size: 12px;
 }
 
+.block-button[page="discuss"] {
+    margin-left: 15px;
+}
+
 .block-button:hover {
     color: #cf5d5a;
 }
