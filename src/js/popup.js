@@ -78,7 +78,7 @@ function blockUserClicked() {
     let username = document.getElementById("block-user-form-input").value;
     document.getElementById("block-user-form-input").value = "";
 
-    if (blockList.includes(username)) {
+    if (blockList.includes(username) || !username || !username.trim()) {
         return;
     }
 
