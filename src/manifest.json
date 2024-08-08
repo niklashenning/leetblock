@@ -1,7 +1,7 @@
 {
-    "name": "Leetcode Block Users",
+    "name": "Leetblock - Block Leetcode Users",
     "version": "1.0.0",
-    "description": "Browser extension that allows blocking users on Leetcode",
+    "description": "Easily block users on Leetcode so they will never show up in comments or replies again",
     "manifest_version": 3,
     "permissions": [
         "storage"
@@ -23,7 +23,7 @@
     },
     "action": {
         "default_popup": "html/popup.html",
-        "default_title": "Leetcode Block Users"
+        "default_title": "Leetblock - Block Leetcode Users"
     },
     "icons": {
         "16": "images/icon_16.png",
