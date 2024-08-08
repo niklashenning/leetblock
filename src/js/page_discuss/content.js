@@ -5,7 +5,9 @@ let commentElements = [];
 
 // Load block list from local storage
 chrome.storage.local.get(["blocklist"], function (result) {
-    blockList = result.blocklist;
+    if (result.blocklist !== undefined) {
+        blockList = result.blocklist;
+    }
 });
 
 

@@ -17,7 +17,9 @@ document.addEventListener("DOMContentLoaded", function () {
     
     // Load block list from local storage
     chrome.storage.local.get(["blocklist"], function (result) {
-        blockList = result.blocklist;
+        if (result.blocklist !== undefined) {
+            blockList = result.blocklist;
+        }
 
         // Add each blocked user to popup block list
         for (let i = 0; i < blockList.length; i++) {
