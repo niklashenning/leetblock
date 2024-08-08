@@ -15,7 +15,7 @@
 <p align="center">Easily block users on Leetcode so they will never show up in comments or replies again</p>
 
 <p align="center">
-    [GIF HERE]
+    <img src="https://github.com/user-attachments/assets/03e9fcc6-1e48-44b0-97ec-cd92266a1401"/>
 </p>
 
 ## Installation
