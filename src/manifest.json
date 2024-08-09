@@ -1,7 +1,7 @@
 {
     "name": "Leetblock - Block Leetcode Users",
     "version": "1.0.0",
-    "description": "Easily block users on Leetcode so they will never show up in comments or replies again",
+    "description": "Easily block users on Leetcode so they will never show up in comments or replies again.",
     "manifest_version": 3,
     "permissions": [
         "storage"
