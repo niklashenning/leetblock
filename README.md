@@ -19,23 +19,40 @@
 </p>
 
 ## Installation
-You can install the extension through the [Chrome Web Store](https://github.com/niklashenning/leetcode-block-users) on browsers such as Google Chrome, Microsoft Edge, Opera, and Brave.
 
+### Chrome Web Store
+You can install the extension through the [Chrome Web Store](https://github.com/niklashenning/leetcode-block-users) on browsers such as Google Chrome, Microsoft Edge, Opera, and Brave.
 Simply follow [this link](https://github.com/niklashenning/leetcode-block-users) and click on the "Add to Chrome" or "Get" button, depending on your browser.
+
+### Installing locally
+Alternatively, you can install the extension locally by following these steps:
+1. Clone the repository
+
+    ```sh
+    git clone https://github.com/niklashenning/leetblock.git
+    ```
+
+2. Open your browser's extension manager
+
+    `chrome://extensions/`, `edge://extensions/`, ...
+
+3. Enable developer mode to be able to load unpacked extensions
+
+4. Click the "Load unpacked" button and select the "src" folder of the cloned repository, which will load and enable the extension
 
 ## Usage
 
-- ### <ins>Blocking user in discussion</u>
-    After enabling the extension, red "Block" buttons will appear on every comment and reply. Clicking it will add that user to the block list and hide all of their posts as long as you keep them blocked.
+### <ins>Blocking users in discussions</u>
+After enabling the extension, red "Block" buttons will appear on every comment and reply. Clicking it will add that user to the block list and hide all of their posts as long as you keep them blocked.
 
-- ### <ins>Blocking user manually</u>
-    If you want to manually block a user by username, click on the extension icon to open the popup, enter the username into the text field, and click the "Block User" button.
+### <ins>Blocking users manually</u>
+If you want to manually block a user by username, click on the extension icon to open the popup, enter the username into the text field, and click the "Block User" button.
 
-- ### <ins>Unblocking user</u>
-    To unblock a user, simply open the extension popup, locate the username in the list, and click the "Unblock" button next to it.
+### <ins>Unblocking users</u>
+To unblock a user, simply open the extension popup, locate the username in the list, and click the "Unblock" button next to it.
 
-- ### <ins>Unblocking all blocked users</u>
-    To unblock every user, open the extension popup and click the "Unblock All" button. After confirming your decision, your block list will be cleared and all posts will be visible again.
+### <ins>Unblocking all blocked users</u>
+To unblock every user, open the extension popup and click the "Unblock All" button. After confirming your decision, your block list will be cleared and all posts will be visible again.
 
 
 ## Demo
